@@ -55,13 +55,46 @@ class Contact
   # by specifying both the name of the attribute and the value
   # eg. searching for 'first_name', 'Betty' should return the first contact named Betty
   def self.find_by(first_name, last_name, email, note, id)
-    @@contacts.each do |contact|
-    return contact if attribute == :first_name && contact.first_name == value
-    return contact if attribute == :last_name && contact.last_name == value
-    return contact if attribute == :email && contact.email == value
-    return contact if attribute == :note && contact.note == value
+    case attribute
+      when "first_name"
+        Contact.all.each do |contact|
+          if value == contact.first_name
+            return contact
+          end
+        end
+        "No match for first name #{value}"
+      when "last_name"
+        Contact.all.each do |contact|
+          if value == contact.last_name
+            return contact
+          end
+        end
+        "No match for last name #{value}"
+      when "email"
+        Contact.all.each do |contact|
+          if value == contact.email
+            return contact
+          end
+        end
+        "No match for email #{value}"
+      when "note"
+        Contact.all.each do |contact|
+          if value == contact.note
+            return contact
+          end
+        end
+        "No match for note #{value}"
+      when "id"
+        Contact.all.each do |contact|
+          if value == contact.id
+            return contact
+          end
+        end
+        "No match for id ##{value}"
     end
+    "#{attribute} is not valid"
   end
+
   #
   # This method should delete all of the contacts
   def self.delete_all
@@ -75,8 +108,9 @@ class Contact
   # # This method should delete the contact
   # # HINT: Check the Array class docs for built-in methods that might be useful here
 
-  def delete(id)
-      @@contacts.delete_if {|contact| id == contact.id}
+  def delete
+    @@contacts.delete(self)
+    @@contacts
   end
 end
 #

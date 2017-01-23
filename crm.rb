@@ -32,9 +32,6 @@ class CRM
     when 4 then display_all_contacts
     when 5 then search_by_attribute
     when 6 then exit
-    # Finish off the rest for 3 through 6
-    # To be clear, the methods add_new_contact and modify_existing_contact
-    # haven't been implemented yet
     end
   end
 
@@ -54,6 +51,7 @@ class CRM
   Contact.create(first_name, last_name, email, note)
 
   end
+
   def modify_existing_contact
 
     print "Enter ID of the contact you'd like to modify:"
@@ -71,17 +69,47 @@ class CRM
   end
 
   def delete_contact
+    print 'Enter contact I.D only if CERTAIN you wish to delete'
+    id = gets.chomp.to_i
+    c = Contact.find(id)
+    display_a_contact(c)
 
   end
 
   def display_all_contacts
-
+    Contact.all
   end
 
   def search_by_attribute
+    puts "Search using one of four attributes"
+    puts "[1] First Name"
+    puts "[2] Last Name"
+    puts "[3] E-mail"
+    puts "[4] Note"
+    method = gets.to_i
+    case method
+    when 1 then
+      print "What is the first name of the contact you'd like to find?"
+      first_name = gets.chomp.to_s
+      return Contact.find_by("first_name",first_name)
+    when 2 then
+      print "What is the last name of the contact you'd like to find?"
+      last_name = gets.chomp.to_s
+      return Contact.find_by("last_name",last_name)
+    when 3 then
+      print "What is the e-mail of the contact you'd like to find?"
+      email = gets.chomp.to_s
+      return Contact.find_by("email",email)
+    when 4 then
+      print "What is the note of the contact you'd like to find?"
+      note = gets.chomp.to_s
+      return Contact.find_by("note",note)
+    else
+      print "Sorry that is not a valid option."
+      contact = []
+    end
 
   end
-
 
 end
 
